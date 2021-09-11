@@ -1,0 +1,31 @@
+name: VoiceChatStreamer
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+       - name: Cloning Repo
+         uses: actions/checkout@v2
+       - uses: styfle/cancel-workflow-action@0.9.0
+         name: "Cancelling duplicate workflow runs"
+         with:
+            all_but_latest: true
+            access_token: ${{ github.token }}
+       - name: Installing Docker
+         uses: docker-practice/actions-setup-docker@1.0.8
+       - name: Deploying Bot
+         continue-on-error: true
+         run: |
+           sudo apt-get update
+           rm config.py
+           echo "CONFIG = True" >> config.py
+           echo "API_ID = ${{ secrets.API_ID }}" >> config.py
+           echo "API_HASH = \"${{ secrets.API_HASH }}\"" >> config.py
+           echo "SESSION = \"${{ secrets.SESSION }}\"" >> config.py
+           docker build . -t vcbot
+       - name: Running
+         timeout-minutes: 350
+         continue-on-error: true
+         run: |
+           docker run vcbot
