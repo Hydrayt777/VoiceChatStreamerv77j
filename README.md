@@ -1,4 +1,4 @@
-# Voice Chat Streamer
+# Voice Chat Streamer 🔥
 _This bot can stream audio or video files and urls in telegram voice chats :)_
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/AnjanaMadu/VoiceChatStreamer?color=green&logo=github)
